@@ -1,0 +1,210 @@
+@startuml
+
+' hide the spot
+hide circle
+
+skinparam linetype ortho
+
+entity "Book" as book {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' status
+}
+
+' alerting block
+entity "Notification" as notification {
+    *el_id: number <<generated>>
+}
+
+entity "Channel" as channel {
+    *el_id: number <<generated>>
+}
+
+entity "Subscription" as subscription {
+    *el_id: number <<generated>>
+    ' notification_id
+    ' channel_id
+    ' user_id
+}
+
+entity "HumanNotification" as human_notification {
+    *el_id: number <<generated>>
+    ' user_id
+    ' subscription_id
+    ' channel_id
+}
+
+entity "BookPurchaseRequest" as book_purchase_request {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' book_id
+    ' status
+}
+
+entity "BookTransferRequest" as book_transfer_request {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' book_id
+    ' status
+}
+
+entity "BookTransferOptions" as book_transfer_options {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' book_id
+    ' status
+}
+
+entity "TimeSlot" as timeslot {
+    *el_id: number <<generated>>
+}
+
+    
+entity "BookTransferTracking" as book_transfer_tracking {
+    *el_id: number <<generated>>
+}
+
+entity "BookRequestReview" as book_request_review {
+    *el_id: number <<generated>>
+    ' residenstvo_id
+    ' book_request_id
+}
+
+entity "BookRequestVouting" as book_request_vouting {
+    *el_id: number <<generated>>
+    ' resident_id
+    ' book_request_review_id
+}
+
+entity "Review" as review {
+    *el_id: number <<generated>>
+}
+
+entity "Raiting" as raiting {
+    *el_id: number <<generated>>
+}
+
+entity "Transaction" as transaction {
+    *el_id: number <<generated>>
+}
+
+entity "Tag" as tag {
+    *el_id: number <<generated>>
+}
+
+entity "List" as list {
+    *el_id: number <<generated>>
+}
+
+entity "Gift" as gift {
+    *el_id: number <<generated>>
+    ' book_id
+}
+
+entity "Human" as human {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    *name : text
+    desc
+    ription : text
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Manager" as manager {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Reader" as reader {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Resident" as resident {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Pastor" as pastor {
+    *el_id: number <<generated>>
+    * id_attr
+    --
+    * require_attr
+    optional_attr
+    * **mandatory bold attribute**
+}
+
+entity "Residenstvo" as residenstvo {
+    *el_id: number <<generated>>
+}
+
+
+subscription ||..o{ human
+channel ||..o{ subscription
+notification ||..o{ subscription
+book_transfer_options ||..o{ book
+book_transfer_request |o..o| book
+book_transfer_options |o..o| book
+timeslot ||..o{ book_transfer_options
+
+book_transfer_tracking  ||..o{ book
+book_request_review     ||..o{ book
+book_request_vouting    ||..o{ book
+
+review                  ||..o{ book
+raiting                 ||..o{ book
+transaction             ||..o{ book
+
+tag                     ||..o{ book
+tag                     ||..o{ human
+
+list                    ||..o{ book
+gift                    ||..o{ book
+' one to many
+residenstvo |o..o{ resident
+
+
+' one to one
+residenstvo |o..o| pastor
+
+
+' one to many
+human |o..o{ pastor 
+human |o..o{ resident
+
+' one to one
+human |o..o| reader
+human |o..o| book
+human |o..o| manager
+book |o..o| residenstvo
+resident ||..o{ human
+
+human_notification ||..o{ human
+human_notification ||..o{ notification
+book_purchase_request ||..o{ book
+
+' one to many
+' one |o..o{ many 
+
+' one to one
+' one |o..o| one
+
+' many to one
+' many ||..o{ one
+
+@enduml
